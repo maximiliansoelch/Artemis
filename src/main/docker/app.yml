@@ -1,3 +1,4 @@
+# TODO: check if this is just a relict from jhipster
 version: '2.4'
 services:
     artemis-app:

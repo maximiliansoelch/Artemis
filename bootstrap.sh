@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: move this do Docker folder and also check build script for Github
+# got confirmation that this can be moved 
 # Entrypoint file for Docker Images of Artemis. The deployment of the application is set to /opt/artemis
 
 cd /opt/artemis || exit 1

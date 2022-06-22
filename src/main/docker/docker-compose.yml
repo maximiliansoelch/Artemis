@@ -1,11 +1,12 @@
 version: '2.4'
 services:
     artemis-app:
+        # TODO: build artemis for arm64 instead of emulating x86_64 on M1s and co
         platform: linux/x86_64
         image: ghcr.io/ls1intum/artemis
         build:
             context: ../../..
-            dockerfile: src/main/docker/Dockerfile
+            dockerfile: src/main/docker/artemis/Dockerfile
         volumes:
             - ../resources/config/application-dev.yml:/opt/artemis/application-dev.yml:ro
             - ../resources/config/application-artemis.yml:/opt/artemis/application-artemis.yml:ro
@@ -22,6 +23,9 @@ services:
             - artemis
         depends_on:
             - artemis-mysql
+    # TODO: either stay with docker-compose v2
+    # or change to v3 and load mysql.yml via docker-compose binary as recommended:
+    # https://docs.docker.com/compose/extends/
     artemis-mysql:
         extends:
             file: mysql.yml

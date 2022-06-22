@@ -16,6 +16,7 @@ https://jhipster.github.io/configuring-ide. Note that the Community
 Edition of IntelliJ IDEA does not provide Spring Boot support (see the
 `comparison
 matrix <https://www.jetbrains.com/idea/features/editions_comparison_matrix.html>`__).
+# TODO: can Artemis be built inside a docker container?
 Before you can build Artemis, you must install and configure the
 following dependencies/tools on your machine:
 
@@ -267,6 +268,7 @@ Releases like ``5.7.1`` are deployed as ``ghcr.io/ls1intum/artemis:5.7.1``.
 The easiest way to configure a local deployment via Docker is a deployment with a docker-compose file.
 You could use a compose file similar to this (as an example this deployment uses the Gitlab+Jenkins configuration of Artemis:
 
+# TODO: just link to this?
 .. code:: yaml
 
     version: '3'
