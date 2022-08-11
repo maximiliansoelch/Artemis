@@ -48,6 +48,9 @@ export abstract class AbstractExerciseAssessmentPage {
             case CypressExerciseType.MODELING:
                 cy.intercept(PUT, BASE_API + 'complaint-responses/complaint/*/resolve').as('complaintAnswer');
                 break;
+            case CypressExerciseType.UPLOAD:
+                cy.intercept(PUT, BASE_API + 'file-upload-submissions/*/assessment-after-complaint').as('complaintAnswer');
+                break;
             default:
                 throw new Error(`Exercise type '${exerciseType}' is not supported yet!`);
         }

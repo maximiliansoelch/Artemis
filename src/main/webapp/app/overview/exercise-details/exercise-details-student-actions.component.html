@@ -347,6 +347,7 @@
             [routerLink]="['/courses', courseId, 'exercises', exercise.id, 'teams', assignedTeamId]"
         ></button>
         <button
+            [id]="'start-exercise-' + exercise.id"
             jhi-exercise-action-button
             [buttonIcon]="faPlayCircle"
             [buttonLabel]="'artemisApp.exerciseActions.startExercise' | artemisTranslate"
@@ -357,6 +358,7 @@
             (click)="startExercise()"
         ></button>
         <button
+            [id]="'open-exercise-' + exercise.id"
             jhi-exercise-action-button
             [buttonIcon]="faFolderOpen"
             [buttonLabel]="'artemisApp.exerciseActions.uploadFile' | artemisTranslate"
@@ -388,6 +390,7 @@
             [routerLink]="['/courses', courseId, 'file-upload-exercises', exercise.id, 'participate', exercise.studentParticipations[0].id]"
         ></button>
         <button
+            id="view-result"
             jhi-exercise-action-button
             [buttonIcon]="faFolderOpen"
             [buttonLabel]="'artemisApp.exerciseActions.viewResults' | artemisTranslate"

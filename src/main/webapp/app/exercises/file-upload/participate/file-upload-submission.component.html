@@ -3,6 +3,7 @@
         {{ 'artemisApp.fileUploadSubmission.fileUpload' | artemisTranslate }}: <span class="font-weight-normal">{{ fileUploadExercise?.title }}</span>
     </span>
     <jhi-button
+        id="submit"
         submitbutton
         *ngIf="isOwnerOfParticipation"
         [disabled]="(!isActive && !isLate) || !submission || !submissionFile || !!result"
@@ -75,7 +76,7 @@
     <!--endregion-->
     <!--region Right Panel-->
     <fa-icon right-header [icon]="farListAlt"></fa-icon>&nbsp;
-    <span right-header jhiTranslate="artemisApp.exercise.problemStatement">Problem Statement</span>
+    <span id="problem-statement" right-header jhiTranslate="artemisApp.exercise.problemStatement">Problem Statement</span>
     <p right-body class="mb-3 markdown-preview" *ngIf="fileUploadExercise!.problemStatement">
         <span [innerHTML]="fileUploadExercise!.problemStatement! | htmlForMarkdown"></span>
     </p>

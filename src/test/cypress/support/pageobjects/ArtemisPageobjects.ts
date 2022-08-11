@@ -35,6 +35,7 @@ import { TextExerciseExampleSubmissionsPage } from './exercises/text/TextExercis
 import { TextExerciseExampleSubmissionCreationPage } from './exercises/text/TextExerciseExampleSubmissionCreationPage';
 import { FileUploadEditorPage } from './exercises/file-upload/FileUploadEditorPage';
 import { FileUploadExerciseCreationPage } from './exercises/file-upload/FileUploadExerciseCreationPage';
+import { FileUploadExerciseAssessmentPage } from './assessment/FileUploadExerciseAssessmentPage';
 import { ExamAssessmentPage } from './assessment/ExamAssessmentPage';
 import { ModelingExerciseFeedbackPage } from './exercises/modeling/ModelingExerciseFeedbackPage';
 import { LectureManagementPage } from './lecture/LectureManagementPage';
@@ -101,6 +102,7 @@ export class ArtemisPageobjects {
         course: new CourseAssessmentDashboardPage(),
         exercise: new ExerciseAssessmentDashboardPage(),
         text: new TextExerciseAssessmentPage(),
+        fileUpload: new FileUploadExerciseAssessmentPage(),
         programming: new ProgrammingExerciseAssessmentPage(),
         modeling: new ModelingExerciseAssessmentEditor(),
     };
