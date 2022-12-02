@@ -31,7 +31,6 @@ import de.tum.in.www1.artemis.web.rest.metis.conversation.dtos.ConversationUserD
 import tech.jhipster.web.util.PaginationUtil;
 
 @RestController
-@RequestMapping("/api/courses")
 public class ConversationResource {
 
     private final Logger log = LoggerFactory.getLogger(ConversationResource.class);
@@ -56,12 +55,12 @@ public class ConversationResource {
     }
 
     /**
-     * GET /api/courses/:courseId/conversations: Returns all conversations of a course where the requesting user is a member
+     * GET /courses/:courseId/conversations: Returns all conversations of a course where the requesting user is a member
      *
      * @param courseId the id of the course
      * @return ResponseEntity with status 200 (OK) and with body containing the list of conversations where the requesting user is a member
      */
-    @GetMapping("/{courseId}/conversations")
+    @GetMapping("courses/{courseId}/conversations")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ConversationDTO>> getConversationsOfUser(@PathVariable Long courseId) {
         var requestingUser = userRepository.getUserWithGroupsAndAuthorities();
@@ -71,14 +70,14 @@ public class ConversationResource {
     }
 
     /**
-     * POST /api/courses/:courseId/conversations/:conversationId/favorite : Updates the favorite status of a conversation for the requesting user
+     * POST /courses/:courseId/conversations/:conversationId/favorite : Updates the favorite status of a conversation for the requesting user
      *
      * @param courseId       the id of the course
      * @param conversationId the id of the conversation
      * @param isFavorite     the new favorite status
      * @return ResponseEntity with status 200 (Ok)
      */
-    @PostMapping("/{courseId}/conversations/{conversationId}/favorite")
+    @PostMapping("courses/{courseId}/conversations/{conversationId}/favorite")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> changeFavoriteStatus(@PathVariable Long courseId, @PathVariable Long conversationId, @RequestParam Boolean isFavorite) {
         var requestingUser = this.userRepository.getUserWithGroupsAndAuthorities();
@@ -88,14 +87,14 @@ public class ConversationResource {
     }
 
     /**
-     * POST /api/courses/:courseId/conversations/:conversationId/hidden : Updates the hidden status of a conversation for the requesting user
+     * POST /courses/:courseId/conversations/:conversationId/hidden : Updates the hidden status of a conversation for the requesting user
      *
      * @param courseId       the id of the course
      * @param conversationId the id of the conversation
      * @param isHidden       the new hidden status
      * @return ResponseEntity with status 200 (Ok)
      */
-    @PostMapping("/{courseId}/conversations/{conversationId}/hidden")
+    @PostMapping("courses/{courseId}/conversations/{conversationId}/hidden")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> switchHiddenStatus(@PathVariable Long courseId, @PathVariable Long conversationId, @RequestParam Boolean isHidden) {
         var requestingUser = this.userRepository.getUserWithGroupsAndAuthorities();
@@ -105,7 +104,7 @@ public class ConversationResource {
     }
 
     /**
-     * GET /api/courses/:courseId/conversations/:conversationId/members/search: Searches for members of a conversation
+     * GET /courses/:courseId/conversations/:conversationId/members/search: Searches for members of a conversation
      *
      * @param courseId       the id of the course
      * @param conversationId the id of the conversation
@@ -114,7 +113,7 @@ public class ConversationResource {
      * @param pageable       containing the pageable information
      * @return ResponseEntity with status 200 (OK) and with body containing the list of found members matching the criteria
      */
-    @GetMapping("/{courseId}/conversations/{conversationId}/members/search")
+    @GetMapping("courses/{courseId}/conversations/{conversationId}/members/search")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ConversationUserDTO>> searchMembersOfConversation(@PathVariable Long courseId, @PathVariable Long conversationId,
             @RequestParam("loginOrName") String loginOrName, @RequestParam(value = "filter", required = false) ConversationMemberSearchFilters filter, Pageable pageable) {
