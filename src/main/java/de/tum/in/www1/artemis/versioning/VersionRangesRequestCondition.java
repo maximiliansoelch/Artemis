@@ -7,11 +7,11 @@ import static de.tum.in.www1.artemis.versioning.VersionRangeService.versionRange
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
 import de.tum.in.www1.artemis.exception.ApiVersionRangeNotValidException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * A request condition for {@link VersionRanges} controlling a set of {@link VersionRange}s.
