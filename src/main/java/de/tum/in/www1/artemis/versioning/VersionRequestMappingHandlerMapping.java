@@ -24,17 +24,21 @@ public class VersionRequestMappingHandlerMapping extends RequestMappingHandlerMa
 
     private final int latestVersion;
 
+    private final RequestMappingInfo.BuilderConfiguration builderConfiguration;
+
     /**
      * Creates a new VersionRequestMappingHandlerMapping.
      *
      * @param pathPrefixSegment The full path segment on the beginning of endpoint path
      * @param versionPrefix     The prefix for the version segment
      */
-    public VersionRequestMappingHandlerMapping(List<Integer> apiVersions, String pathPrefixSegment, String versionPrefix) {
+    public VersionRequestMappingHandlerMapping(List<Integer> apiVersions, String pathPrefixSegment, String versionPrefix,
+            RequestMappingInfo.BuilderConfiguration builderConfiguration) {
         this.apiVersions = apiVersions;
         this.latestVersion = this.apiVersions.get(this.apiVersions.size() - 1);
         this.pathPrefixSegment = pathPrefixSegment;
         this.versionPrefix = versionPrefix;
+        this.builderConfiguration = builderConfiguration;
     }
 
     /**
@@ -88,6 +92,6 @@ public class VersionRequestMappingHandlerMapping extends RequestMappingHandlerMa
         if (customCondition.getApplicableVersions().contains(latestVersion)) {
             patterns.add("/" + pathPrefixSegment);
         }
-        return RequestMappingInfo.paths(patterns.toArray(new String[] {})).customCondition(customCondition).build();
+        return RequestMappingInfo.paths(patterns.toArray(new String[] {})).options(builderConfiguration).customCondition(customCondition).build();
     }
 }
