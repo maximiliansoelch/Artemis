@@ -8,6 +8,8 @@
     ],
     "devDependencies": {
         "@4tw/cypress-drag-drop": "2.1.0",
+        "@heddendorp/coverage-git-compare": "^1.6.5",
+        "@heddendorp/cypress-plugin-multilanguage-coverage": "^1.6.5",
         "@types/node": "17.0.24",
         "cypress": "9.5.4",
         "cypress-file-upload": "5.0.8",
@@ -19,6 +21,7 @@
     "scripts": {
         "cypress:open": "cypress open",
         "cypress:run": "cypress run --browser=chrome",
-        "update": "npm-upgrade"
+        "update": "npm-upgrade",
+        "detect:flakies": "coverage-git-compare history -c bc1ff2925201dcbb2bb742b681a92fe0b07d1dc5"
     }
 }
