@@ -4,7 +4,13 @@ import static de.tum.in.www1.artemis.domain.enumeration.NotificationPriority.*;
 import static de.tum.in.www1.artemis.domain.notification.NotificationTargetFactory.*;
 import static de.tum.in.www1.artemis.domain.notification.NotificationTitleTypeConstants.*;
 
+import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
 
 import de.tum.in.www1.artemis.domain.Course;
 import de.tum.in.www1.artemis.domain.Exercise;
@@ -14,9 +20,15 @@ import de.tum.in.www1.artemis.domain.metis.Post;
 import de.tum.in.www1.artemis.domain.plagiarism.PlagiarismCase;
 import de.tum.in.www1.artemis.domain.tutorialgroups.TutorialGroup;
 
+@Component
 public class SingleUserNotificationFactory {
 
-    private static final String POST_NOTIFICATION_TEXT = "Your post got replied.";
+    private static MessageSource messageSource;
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        SingleUserNotificationFactory.messageSource = messageSource;
+    }
 
     /**
      * Creates an instance of SingleUserNotification.
@@ -28,22 +40,24 @@ public class SingleUserNotificationFactory {
      */
     public static SingleUserNotification createNotification(Post post, NotificationType notificationType, Course course) {
         User recipient = post.getAuthor();
+        Locale userLocale = Locale.forLanguageTag(recipient.getLangKey());
         String title;
+        String text = messageSource.getMessage("notification.text.newReply", null, userLocale);
         SingleUserNotification notification;
         switch (notificationType) {
             case NEW_REPLY_FOR_EXERCISE_POST -> {
-                title = NEW_REPLY_FOR_EXERCISE_POST_TITLE;
-                notification = new SingleUserNotification(recipient, title, POST_NOTIFICATION_TEXT);
+                title = messageSource.getMessage("notification.title.newReplyForExercisePost", null, userLocale);
+                notification = new SingleUserNotification(recipient, title, text);
                 notification.setTransientAndStringTarget(createExercisePostTarget(post, course));
             }
             case NEW_REPLY_FOR_LECTURE_POST -> {
-                title = NEW_REPLY_FOR_LECTURE_POST_TITLE;
-                notification = new SingleUserNotification(recipient, title, POST_NOTIFICATION_TEXT);
+                title = messageSource.getMessage("notification.title.newReplyForLecturePost", null, userLocale);
+                notification = new SingleUserNotification(recipient, title, text);
                 notification.setTransientAndStringTarget(createLecturePostTarget(post, course));
             }
             case NEW_REPLY_FOR_COURSE_POST -> {
-                title = NEW_REPLY_FOR_COURSE_POST_TITLE;
-                notification = new SingleUserNotification(recipient, title, POST_NOTIFICATION_TEXT);
+                title = messageSource.getMessage("notification.title.newReplyForCoursePost", null, userLocale);
+                notification = new SingleUserNotification(recipient, title, text);
                 notification.setTransientAndStringTarget(createCoursePostTarget(post, course));
             }
             default -> throw new UnsupportedOperationException("Unsupported NotificationType: " + notificationType);
@@ -60,18 +74,19 @@ public class SingleUserNotificationFactory {
      * @return an instance of SingleUserNotification
      */
     public static SingleUserNotification createNotification(Exercise exercise, NotificationType notificationType, User recipient) {
+        Locale userLocale = Locale.forLanguageTag(recipient.getLangKey());
         String title;
         String notificationText;
         SingleUserNotification notification;
         switch (notificationType) {
             case EXERCISE_SUBMISSION_ASSESSED -> {
-                title = EXERCISE_SUBMISSION_ASSESSED_TITLE;
-                notificationText = "Your submission for the " + exercise.getExerciseType().getExerciseTypeAsReadableString() + " exercise \"" + exercise.getTitle()
-                        + "\" has been assessed.";
+                title = messageSource.getMessage("notification.title.exerciseSubmissionAssessed", null, userLocale);
+                notificationText = MessageFormat.format(messageSource.getMessage("notification.text.exerciseSubmissionAssessed", null, userLocale),
+                        exercise.getExerciseType().getExerciseTypeAsReadableString(), exercise.getTitle());
             }
             case FILE_SUBMISSION_SUCCESSFUL -> {
-                title = FILE_SUBMISSION_SUCCESSFUL_TITLE;
-                notificationText = "Your file for the exercise \"" + exercise.getTitle() + "\" was successfully submitted.";
+                title = messageSource.getMessage("notification.title.fileSubmissionSuccessful", null, userLocale);
+                notificationText = MessageFormat.format(messageSource.getMessage("notification.text.fileSubmissionSuccessful", null, userLocale), exercise.getTitle());
             }
             default -> throw new UnsupportedOperationException("Unsupported NotificationType: " + notificationType);
         }
@@ -90,6 +105,7 @@ public class SingleUserNotificationFactory {
      * @return an instance of SingleUserNotification
      */
     public static SingleUserNotification createNotification(PlagiarismCase plagiarismCase, NotificationType notificationType, User student, User instructor) {
+        Locale userLocale = Locale.forLanguageTag(student.getLangKey());
         String title;
         String notificationText;
         SingleUserNotification notification;
@@ -98,14 +114,14 @@ public class SingleUserNotificationFactory {
 
         switch (notificationType) {
             case NEW_PLAGIARISM_CASE_STUDENT -> {
-                title = NEW_PLAGIARISM_CASE_STUDENT_TITLE;
-                notificationText = "New plagiarism case concerning the " + affectedExercise.getExerciseType().toString().toLowerCase() + " exercise \""
-                        + affectedExercise.getTitle() + "\".";
+                title = messageSource.getMessage("notification.title.newPlagiarismCaseStudent", null, userLocale);
+                notificationText = MessageFormat.format(messageSource.getMessage("notification.text.newPlagiarismCaseStudent", null, userLocale),
+                        affectedExercise.getExerciseType().toString().toLowerCase(), affectedExercise.getTitle());
             }
             case PLAGIARISM_CASE_VERDICT_STUDENT -> {
-                title = PLAGIARISM_CASE_VERDICT_STUDENT_TITLE;
-                notificationText = "Your plagiarism case concerning the " + affectedExercise.getExerciseType().toString().toLowerCase() + " exercise \""
-                        + affectedExercise.getTitle() + "\"" + " has a verdict.";
+                title = messageSource.getMessage("notification.title.plagiarismCaseVerdictStudent", null, userLocale);
+                notificationText = MessageFormat.format(messageSource.getMessage("notification.text.plagiarismCaseVerdictStudent", null, userLocale),
+                        affectedExercise.getExerciseType().toString().toLowerCase(), affectedExercise.getTitle());
             }
             default -> throw new UnsupportedOperationException("Unsupported NotificationType: " + notificationType);
         }

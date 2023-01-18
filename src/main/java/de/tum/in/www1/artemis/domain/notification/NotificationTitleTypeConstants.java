@@ -11,6 +11,7 @@ public class NotificationTitleTypeConstants {
 
     public static final String LIVE_EXAM_EXERCISE_UPDATE_NOTIFICATION_TITLE = "Live Exam Exercise Update";
 
+    // done
     public static final String EXERCISE_SUBMISSION_ASSESSED_TITLE = "Exercise Submission Assessed";
 
     public static final String ATTACHMENT_CHANGE_TITLE = "Attachment updated";
@@ -35,12 +36,16 @@ public class NotificationTitleTypeConstants {
 
     public static final String NEW_ANNOUNCEMENT_POST_TITLE = "New announcement";
 
+    // done
     public static final String NEW_REPLY_FOR_EXERCISE_POST_TITLE = "New reply for exercise post";
 
+    // done
     public static final String NEW_REPLY_FOR_LECTURE_POST_TITLE = "New reply for lecture post";
 
+    // done
     public static final String NEW_REPLY_FOR_COURSE_POST_TITLE = "New reply for course-wide post";
 
+    // done
     public static final String FILE_SUBMISSION_SUCCESSFUL_TITLE = "File submission successful";
 
     public static final String COURSE_ARCHIVE_STARTED_TITLE = "Course archival started";
@@ -59,8 +64,10 @@ public class NotificationTitleTypeConstants {
 
     public static final String NEW_MANUAL_FEEDBACK_REQUEST_TITLE = "A new manual feedback request has been submitted";
 
+    // done
     public static final String NEW_PLAGIARISM_CASE_STUDENT_TITLE = "New plagiarism case";
 
+    // done
     public static final String PLAGIARISM_CASE_VERDICT_STUDENT_TITLE = "Verdict for your plagiarism case";
 
     public static final String TUTORIAL_GROUP_REGISTRATION_STUDENT_TITLE = "You have been registered to a tutorial group";
