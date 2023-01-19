@@ -36,6 +36,7 @@ describe('Exam participation', () => {
             course = convertCourseAfterMultiPart(response);
             const examContent = new CypressExamBuilder(course)
                 .title(examTitle)
+                .testExam()
                 .visibleDate(dayjs().subtract(3, 'days'))
                 .startDate(dayjs().subtract(2, 'days'))
                 .endDate(dayjs().add(3, 'days'))
