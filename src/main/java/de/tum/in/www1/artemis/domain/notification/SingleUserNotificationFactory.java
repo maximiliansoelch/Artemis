@@ -42,22 +42,22 @@ public class SingleUserNotificationFactory {
         User recipient = post.getAuthor();
         Locale userLocale = Locale.forLanguageTag(recipient.getLangKey());
         String title;
-        String text = messageSource.getMessage("notification.text.newReply", null, userLocale);
+        String notificationText = messageSource.getMessage("notification.text.newReply", null, userLocale);
         SingleUserNotification notification;
         switch (notificationType) {
             case NEW_REPLY_FOR_EXERCISE_POST -> {
                 title = messageSource.getMessage("notification.title.newReplyForExercisePost", null, userLocale);
-                notification = new SingleUserNotification(recipient, title, text);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createExercisePostTarget(post, course));
             }
             case NEW_REPLY_FOR_LECTURE_POST -> {
                 title = messageSource.getMessage("notification.title.newReplyForLecturePost", null, userLocale);
-                notification = new SingleUserNotification(recipient, title, text);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createLecturePostTarget(post, course));
             }
             case NEW_REPLY_FOR_COURSE_POST -> {
                 title = messageSource.getMessage("notification.title.newReplyForCoursePost", null, userLocale);
-                notification = new SingleUserNotification(recipient, title, text);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createCoursePostTarget(post, course));
             }
             default -> throw new UnsupportedOperationException("Unsupported NotificationType: " + notificationType);
@@ -145,9 +145,9 @@ public class SingleUserNotificationFactory {
      * @return an instance of SingleUserNotification
      */
     public static SingleUserNotification createNotification(TutorialGroup tutorialGroup, NotificationType notificationType, Set<User> users, User responsibleForAction) {
+        Locale userLocale;
         var title = findCorrespondingNotificationTitleOrThrow(notificationType);
         String notificationText;
-        Locale userLocale;
         if (users.isEmpty()) {
             throw new IllegalArgumentException("No users provided for notification");
         }
@@ -175,10 +175,11 @@ public class SingleUserNotificationFactory {
                 }
                 var student = users.stream().findAny();
                 var studentName = student.isPresent() ? student.get().getName() : "";
-                userLocale = Locale.forLanguageTag(tutorialGroup.getTeachingAssistant().getLangKey());
+                User recipient = tutorialGroup.getTeachingAssistant();
+                userLocale = Locale.forLanguageTag(recipient.getLangKey());
                 notificationText = MessageFormat.format(messageSource.getMessage("notification.text.tutorialGroupRegistrationTutor", null, userLocale),
                     studentName, tutorialGroup.getTitle(), responsibleForAction.getName());
-                notification = new SingleUserNotification(tutorialGroup.getTeachingAssistant(), title, notificationText);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createTutorialGroupTarget(tutorialGroup, tutorialGroup.getCourse().getId(), true, true));
             }
             case TUTORIAL_GROUP_DEREGISTRATION_TUTOR -> {
@@ -188,20 +189,22 @@ public class SingleUserNotificationFactory {
 
                 var student = users.stream().findAny();
                 var studentName = student.isPresent() ? student.get().getName() : "";
-                userLocale = Locale.forLanguageTag(tutorialGroup.getTeachingAssistant().getLangKey());
+                User recipient = tutorialGroup.getTeachingAssistant();
+                userLocale = Locale.forLanguageTag(recipient.getLangKey());
                 notificationText = MessageFormat.format(messageSource.getMessage("notification.text.tutorialGroupDeregistrationTutor", null, userLocale),
                     studentName, tutorialGroup.getTitle(), responsibleForAction.getName());
-                notification = new SingleUserNotification(tutorialGroup.getTeachingAssistant(), title, notificationText);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createTutorialGroupTarget(tutorialGroup, tutorialGroup.getCourse().getId(), true, true));
             }
             case TUTORIAL_GROUP_MULTIPLE_REGISTRATION_TUTOR -> {
                 if (tutorialGroup.getTeachingAssistant() == null) {
                     throw new IllegalArgumentException("The tutorial group " + tutorialGroup.getTitle() + " does not have a tutor to which a notification could be sent.");
                 }
-                userLocale = Locale.forLanguageTag(tutorialGroup.getTeachingAssistant().getLangKey());
+                User recipient = tutorialGroup.getTeachingAssistant();
+                userLocale = Locale.forLanguageTag(recipient.getLangKey());
                 notificationText = MessageFormat.format(messageSource.getMessage("notification.text.tutorialGroupMultipleRegistrationTutor", null, userLocale),
                     users.size(), tutorialGroup.getTitle(), responsibleForAction.getName());
-                notification = new SingleUserNotification(tutorialGroup.getTeachingAssistant(), title, notificationText);
+                notification = new SingleUserNotification(recipient, title, notificationText);
                 notification.setTransientAndStringTarget(createTutorialGroupTarget(tutorialGroup, tutorialGroup.getCourse().getId(), true, true));
             }
             case TUTORIAL_GROUP_ASSIGNED -> {
