@@ -27,6 +27,21 @@ export function dayjsToString(dayjs: day.Dayjs) {
     return dayjs.utc().format(TIME_FORMAT) + 'Z';
 }
 
+/**
+ * This function is necessary to make the server and the client date comparable.
+ * The server sometimes has 3 digit on the milliseconds and sometimes only 1 digit.
+ * With this function we always cut the date string after the first digit.
+ * @param date the date as a string
+ * @returns a date string with only one digit for the milliseconds
+ */
+export function trimDate(date: string) {
+    return date.slice(0, 19);
+}
+
+export function getExercise(exerciseId: number) {
+    return cy.get(`#exercise-${exerciseId}`);
+}
+
 export function parseArrayBufferAsJsonObject(buffer: ArrayBuffer) {
     const bodyString = Cypress.Blob.arrayBufferToBinaryString(buffer);
     return JSON.parse(bodyString);
