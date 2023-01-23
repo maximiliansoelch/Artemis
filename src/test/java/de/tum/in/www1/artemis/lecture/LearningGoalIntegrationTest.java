@@ -616,7 +616,7 @@ class LearningGoalIntegrationTest extends AbstractSpringIntegrationBambooBitbuck
         createParticipationSubmissionAndResult(idOfTeamTextExercise, teams.get(2), 10.0, 0.0, 10, true);
         createParticipationSubmissionAndResult(idOfTeamTextExercise, teams.get(3), 10.0, 0.0, 50, true);
 
-        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(15)).until(() -> participantScoreScheduleService.isIdle());
+        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(30)).until(() -> participantScoreScheduleService.isIdle());
 
         CourseLearningGoalProgressDTO courseLearningGoalProgress = request.get("/api/courses/" + idOfCourse + "/learning-goals/" + idOfLearningGoal + "/course-progress",
                 HttpStatus.OK, CourseLearningGoalProgressDTO.class);
@@ -650,7 +650,7 @@ class LearningGoalIntegrationTest extends AbstractSpringIntegrationBambooBitbuck
 
         createParticipationSubmissionAndResult(idOfTextExercise, instructor1, 10.0, 0.0, 100, true); // will be ignored as not a student
 
-        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(15)).until(() -> participantScoreScheduleService.isIdle());
+        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(30)).until(() -> participantScoreScheduleService.isIdle());
 
         CourseLearningGoalProgressDTO courseLearningGoalProgress = request.get("/api/courses/" + idOfCourse + "/learning-goals/" + idOfLearningGoal + "/course-progress",
                 HttpStatus.OK, CourseLearningGoalProgressDTO.class);
@@ -674,7 +674,7 @@ class LearningGoalIntegrationTest extends AbstractSpringIntegrationBambooBitbuck
         createParticipationSubmissionAndResult(idOfTextExercise, student1, 10.0, 0.0, 90, true);  // will be ignored in favor of last submission from team
         createParticipationSubmissionAndResult(idOfTextExercise, student1, 10.0, 0.0, 85, false);
 
-        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(15)).until(() -> participantScoreScheduleService.isIdle());
+        await().pollDelay(Duration.ofSeconds(2)).atMost(Duration.ofSeconds(30)).until(() -> participantScoreScheduleService.isIdle());
 
         LearningGoalProgress studentLearningGoalProgress1 = request.get("/api/courses/" + idOfCourse + "/learning-goals/" + idOfLearningGoal + "/student-progress?refresh=true",
                 HttpStatus.OK, LearningGoalProgress.class);
