@@ -1,4 +1,4 @@
-    package de.tum.in.www1.artemis.service;
+package de.tum.in.www1.artemis.service;
 
 import static de.tum.in.www1.artemis.domain.enumeration.InitializationState.*;
 
