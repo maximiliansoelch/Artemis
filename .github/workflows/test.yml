@@ -61,19 +61,6 @@ jobs:
     - name: Print failed tests
       if: failure()
       run: cat tests.log | grep "Test >.* FAILED" || [[ $? == 1 ]]
-    - name: "Codacy: Report coverage"
-      uses: codacy/codacy-coverage-reporter-action@master
-      with:
-        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: build/reports/jacoco/test/jacocoTestReport.xml
-      if: (github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name) && (success() || failure()) && github.event.pull_request.user.login != 'dependabot[bot]'
-    - name: Annotate Server Test Results
-      uses: ashley-taylor/junit-report-annotations-action@f9c1a5cbe28479439f82b80a5402a6d3aa1990ac
-      if: always() && github.event.pull_request.user.login != 'dependabot[bot]'
-      with:
-        access-token: ${{ secrets.GITHUB_TOKEN }}
-        path: build/test-results/test/*.xml
-        numFailures: 99
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
@@ -85,21 +72,22 @@ jobs:
       if: success() || failure()
       run: bash supporting_scripts/extract_number_of_server_starts.sh
 
-  server-tests-mysql:
+  db-server-tests:
       needs: [ server-tests ]
+      strategy:
+      matrix:
+        include:
+          - db-name: MySQL
+            db-spring-profile: mysql
+            timeout: 120
+          - db-name: PostgreSQL
+            db-spring-profile: postgres
+            timeout: 150
       uses: ./.github/workflows/server-tests.yml
       with:
-        db-name: MySQL
-        db-spring-profile: mysql
-        timeout: 120
-
-  server-tests-postgres:
-      needs: [ server-tests ]
-      uses: ./.github/workflows/server-tests.yml
-      with:
-        db-name: PostgreSQL
-        db-spring-profile: postgres
-        timeout: 150
+        db-name: ${{ matrix.db-name }}
+        db-spring-profile: ${{ matrix.db-spring-profile }}
+        timeout: ${{ matrix.timeout }}
 
   server-style:
     runs-on: ubuntu-latest

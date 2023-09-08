@@ -1,4 +1,4 @@
-name: Perform server tests
+name: DB Server Test
 
 on:
   workflow_call:
