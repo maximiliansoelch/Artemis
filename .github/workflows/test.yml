@@ -87,27 +87,19 @@ jobs:
 
   server-tests-mysql:
       needs: [ server-tests ]
-      runs-on: ubuntu-latest
-      timeout-minutes: 120
-      # Limit the number of concurrent mysql tests to one in total
-      concurrency:
-          group: server-tests-mysql
       uses: ./.github/workflows/server-tests.yml
       with:
         db-name: MySQL
         db-spring-profile: mysql
+        timeout: 120
 
   server-tests-postgres:
       needs: [ server-tests ]
-      runs-on: ubuntu-latest
-      timeout-minutes: 150
-      # Limit the number of concurrent postgres tests to one in total
-      concurrency:
-          group: server-tests-postgres
       uses: ./.github/workflows/server-tests.yml
       with:
         db-name: PostgreSQL
         db-spring-profile: postgres
+        timeout: 150
 
   server-style:
     runs-on: ubuntu-latest

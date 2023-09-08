@@ -9,10 +9,17 @@ on:
       db-spring-profile:
         required: true
         type: string
+      timeout:
+        required: true
+        type: number
 
 jobs:
   server-test:
     runs-on: ubuntu-latest
+    # Limit the number of concurrent db tests to one in total
+    timeout-minutes: ${{ inputs.timeout }}
+    concurrency:
+      group: server-tests-${{ inputs.db-spring-profile }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
