@@ -75,14 +75,14 @@ jobs:
   db-server-tests:
       needs: [ server-tests ]
       strategy:
-      matrix:
-        include:
-          - db-name: MySQL
-            db-spring-profile: mysql
-            timeout: 120
-          - db-name: PostgreSQL
-            db-spring-profile: postgres
-            timeout: 150
+        matrix:
+          include:
+            - db-name: MySQL
+              db-spring-profile: mysql
+              timeout: 120
+            - db-name: PostgreSQL
+              db-spring-profile: postgres
+              timeout: 150
       uses: ./.github/workflows/server-tests.yml
       with:
         db-name: ${{ matrix.db-name }}
